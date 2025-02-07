@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define the counter file
-COUNTER_FILE="/home/ko/Documents/shellAmulet/counter.txt"
-TIME_TRACK_FILE="/home/ko/Documents/shellAmulet/time_spent.txt"
+COUNTER_FILE="/home/ko/Documents/GitHub/Terminal-Pet/counter.txt"
+TIME_TRACK_FILE="/home/ko/Documents/GitHub/Terminal-Pet/time_spent.txt"
 
 # Check if the counter file exists
 if [ ! -f "$COUNTER_FILE" ]; then

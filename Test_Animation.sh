@@ -10,9 +10,9 @@ move_cursor() {
 
 # Function to animate a moving sprite (entire sprite moves together)
 animate_sprite() {
-    width=10  # Width of the screen for animation
-    height=10  # Height of the screen for animation (adjust as needed)
-    position=0  # Starting position of the sprite
+    width=9  # Width of the screen for animation
+    height=2  # Height of the screen for animation (adjust as needed)
+    position=3  # Starting position of the sprite
     direction=1  # 1 means moving right, -1 means moving left
     
     # Define the sprite as an array of lines
@@ -52,6 +52,16 @@ animate_sprite() {
     while true; do
         # Clear the screen each frame
         tput clear
+
+                # Display ASCII art
+        echo -e " \033[33;41mO________________________\033[0m"
+        echo -e "  \033[33;41m|------------     |     |\033[0m"
+        echo -e "  \033[33;41m|           |     |  o  |\033[0m"
+        echo -e "  \033[33;41m|           |     |\  / |\033[0m"
+        echo -e "  \033[33;41m|           |     | \o  |\033[0m"
+        echo -e "  \033[33;41m|           |     | /\  |\033[0m"
+        echo -e "  \033[33;41m|-----------|     |/ o\ |\033[0m"
+        echo -e "  \033[33;41m|_________________|_____|\033[0m"
         
         # Move the cursor to the current position and print all lines of the sprite
         for ((i = 0; i < ${#sprite_lines[@]}; i++)); do
@@ -63,7 +73,7 @@ animate_sprite() {
         position=$((position + direction))
         
         # Reverse direction if the sprite reaches the edge of the screen
-        if [ $position -ge $width ] || [ $position -le 0 ]; then
+        if [ $position -ge $width ] || [ $position -le 3 ]; then
             direction=$((direction * -1))
             reverse_sprite_horizontally  # Reverse the sprite horizontally when the direction changes
         fi
