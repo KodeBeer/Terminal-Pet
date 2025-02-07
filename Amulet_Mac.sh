@@ -1,19 +1,41 @@
 #!/bin/bash
 
 # Define the counter file
-COUNTER_FILE="/Volumes/AMULET/shellAmulet/counter.txt"
+COUNTER_FILE="/home/ko/Documents/shellAmulet/counter.txt"
+TIME_TRACK_FILE="/home/ko/Documents/shellAmulet/time_spent.txt"
 
 # Check if the counter file exists
 if [ ! -f "$COUNTER_FILE" ]; then
     echo 0 > "$COUNTER_FILE"  # If the file doesn't exist, initialize counter to 0
 fi
 
+# Check if the start time is already recorded
+if [ ! -f "$TIME_TRACK_FILE" ]; then
+    # If the file does not exist, this is the first time the script is running
+    start_time=$(date +%s)  # Get the current timestamp in seconds
+    echo "$start_time" > "$TIME_TRACK_FILE"  # Store the start time in the file
+    echo "Welcome! Starting time tracking..."
+else
+    # If the file exists, read the stored start time
+    start_time=$(cat "$TIME_TRACK_FILE")
+fi
 # Read the current counter value from the file
 counter=$(cat "$COUNTER_FILE")
 
 # Increment the counter
 ((counter++))
 
+# Calculate the time spent in the terminal since the script started
+current_time=$(date +%s)  # Get the current timestamp in seconds
+time_spent=$((current_time - start_time))  # Time spent in seconds
+
+# Convert time spent into minutes and hours
+minutes_spent=$((time_spent / 60))
+hours_spent=$((minutes_spent / 60))
+remaining_minutes=$((minutes_spent % 60))
+
+# Display the time spent in a readable format
+echo "Time spent in terminal: ${hours_spent} hours and ${remaining_minutes} minutes."
 
 if [ "$counter" -ge 5 ]; then
     spriteNum=5
@@ -59,6 +81,11 @@ animate_sprite() {
 
         # Display the current counter value
         echo "You are level $counter"
+
+
+        # Display the time spent in a readable format
+        echo "Time spent in terminal: ${hours_spent} hours and ${remaining_minutes} minutes."
+
 
                 # Increment walkNum to cycle through legs (loop back after 3)
         if [ "$walkNum" -eq 3 ]; then

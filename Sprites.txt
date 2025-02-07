@@ -1,0 +1,25 @@
+Sprite[0]="    _     "
+Sprite[1]="  / . \   "
+Sprite[2]=" |  .  |  "
+Sprite[3]="  \___/   "
+Sprite[4]="----------"
+
+Sprite[5]="     @@   "
+Sprite[6]="  \  ##>  "
+Sprite[7]="   ###    "
+Sprite[8]="  /   \   "
+Sprite[9]="----------"
+
+Sprite[10]="   @_@    "
+Sprite[11]="  \ # /   "
+Sprite[12]="   ###    "
+Sprite[13]="  /   \   "
+Sprite[14]="----------"
+
+Sprite[10]="   @_@    "
+Sprite[11]="  \ #     "
+Sprite[12]="   ###\   "
+Sprite[13]="  /   \   "
+Sprite[14]="----------"
+
+
