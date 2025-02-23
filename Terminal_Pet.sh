@@ -3,7 +3,7 @@
 # Clear the screen
 tput clear
 
-# Define the counter file
+# Change to your counter and time track file path
 COUNTER_FILE="/home/ko/Documents/GitHub/Terminal-Pet/counter.txt"
 TIME_TRACK_FILE="/home/ko/Documents/GitHub/Terminal-Pet/time_spent.txt"
 
@@ -46,9 +46,9 @@ move_cursor() {
 
 # Function to animate a moving sprite (entire sprite moves together)
 animate_sprite() {
-    width=7  # Width of the screen for animation
+    width=6  # Width of the screen for animation
     height=2  # Height of the screen for animation (adjust as needed)
-    position=3  # Starting position of the sprite
+    position=2  # Starting position of the sprite
     direction=1  # 1 means moving right, -1 means moving left
     
     # Define the sprite as an array of lines
@@ -57,12 +57,12 @@ animate_sprite() {
         "  / . \   "
         " |  .  |  "
         "  \___/   "
-        "          "
+        "__________"
         "   @@ "
         "\  ##>"
         " ###  "
         "/   \ "
-        "      "
+        "______"
         " @_@  "
         "/ # \ "
         " ###  "
@@ -148,19 +148,18 @@ animate_sprite() {
         fi
 
         # Display ASCII art
-        echo -e " ${sprite_color}O__________________${RESET}"
-        echo -e "  ${sprite_color}|${RESET}___________${sprite_color}     |${RESET}"
-        echo -e "  |          |${sprite_color}  o  |${RESET}" 
-        echo -e "  |          |${sprite_color}\\  / |${RESET}" 
-        echo -e "  |          |${sprite_color} \\o  |${RESET}" 
-        echo -e "  |          |${sprite_color} /\\  |${RESET}"  
-        echo -e "  |__________|${sprite_color}/ o\\ |${RESET}" 
-        echo -e "  ${sprite_color}|________________|${RESET}"
-
-        # Display the time since start in a readable format
-        echo "Time past since start: ${hours_spent} hours and ${remaining_minutes} minutes."
+        echo -e "${sprite_color}O__________________${RESET}"
+        echo -e " ${sprite_color}|${RESET}___________${sprite_color}     |${RESET}"
+        echo -e " |          |${sprite_color}  o  |${RESET}" 
+        echo -e " |          |${sprite_color}\\  / |${RESET}" 
+        echo -e " |          |${sprite_color} \\o  |${RESET}" 
+        echo -e " |          |${sprite_color} /\\  |${RESET}"  
+        echo -e " |__________|${sprite_color}/ o\\ |${RESET}" 
+        echo -e " ${sprite_color}|________________|${RESET}"
         # Display the current counter value
         echo "You are level $counter"
+        # Display the time since start in a readable format
+        echo "Age: ${hours_spent} hours and ${remaining_minutes} minutes."
 
         # Calculate the starting index for the set of lines to display
         start_idx=$((line_set * num_lines))
@@ -177,7 +176,7 @@ animate_sprite() {
         fi
         
         # Reverse direction if the sprite reaches the edge of the screen
-        if [ $position -ge $width ] || [ $position -le 3 ] && [ "$line_set" -ne 0 ]; then
+        if [ $position -ge $width ] || [ $position -le 2 ] && [ "$line_set" -ne 0 ]; then
             direction=$((direction * -1))
             reverse_sprite_horizontally  # Reverse the sprite horizontally when the direction changes
         fi
