@@ -91,7 +91,6 @@ animate_sprite() {
         done
     }
 
-
     # Calculate spriteNum based on counter
     # New variable to decide which lines of the sprite array to display (0 for 1-9, 1 for 10-19, etc.)
     # change the 30 to for example 40 if an extra evolutions is added to the spites lines array.
@@ -100,7 +99,6 @@ animate_sprite() {
     else
         line_set=2
     fi
-
 
     # Number of lines to display in one set (adjust this if you want to show more or fewer lines per set)
     num_lines=5  
@@ -123,8 +121,8 @@ animate_sprite() {
     # Calculate weeks passed since the start
     weeks_passed=$((time_spent / 604800))  # 604800 seconds = 168 hours (1 week)
 
-    # Increment sprite color every 168 hours (1 week)
-    if [ "$weeks_passed" -gt "$sprite_color_index" ]; then
+    # Increment sprite color every 168 hours (1 week) up to 5 weeks
+    if [ "$weeks_passed" -gt "$sprite_color_index" ] && [ "$weeks_passed" -lt 6 ]; then
         sprite_color_index=$weeks_passed  # Update the sprite color index
     fi
 
@@ -144,8 +142,10 @@ animate_sprite() {
         # Clear the screen each frame
         tput clear
         
-        
-        #change_sprite_color
+        # After 5 weeks you unlock the final "color"
+        if [ "$weeks_passed" -gt 5 ]; then
+            change_sprite_color
+        fi
 
         # Display ASCII art
         echo -e " ${sprite_color}O__________________${RESET}"
@@ -161,7 +161,6 @@ animate_sprite() {
         echo "Time past since start: ${hours_spent} hours and ${remaining_minutes} minutes."
         # Display the current counter value
         echo "You are level $counter"
-        echo $line_set
 
         # Calculate the starting index for the set of lines to display
         start_idx=$((line_set * num_lines))
@@ -190,61 +189,3 @@ animate_sprite() {
 
 # Start the animation
 animate_sprite
-
-
-
-# Leg[0]="  /   \   "
-# Leg[1]="   \  \   "
-# Leg[2]="   \ /    "
-# Leg[3]="  /  /    "
-
-# Sprite[0]="    _     "
-# Sprite[1]="  / . \   "
-# Sprite[2]=" |  .  |  "
-# Sprite[3]="  \___/   "
-# Sprite[4]="----------"
-# Sprite[5]="     @@   "
-# Sprite[6]="  \  ##>  "
-# Sprite[7]="   ###    "
-
-# Sprite[9]="----------"
-
-# animate_sprite() {
-#     walkNum=0
-#     while true; do
-#         Sprite[8]="${Leg[walkNum]}"
-#         # Clear the terminal screen
-#         clear
-        
-#         # Display ASCII art
-#         echo -e " \033[33;41mO__________________\033[0m"
-#         echo -e "  \033[33;41m|___________     |\033[0m"
-#         echo -e "  \033[33;41m|${Sprite[$((0 + spriteNum))]}|  o  |\033[0m"
-#         echo -e "  \033[33;41m|${Sprite[1 + spriteNum]}|\  / |\033[0m"
-#         echo -e "  \033[33;41m|${Sprite[2 + spriteNum]}| \o  |\033[0m"
-#         echo -e "  \033[33;41m|${Sprite[3 + spriteNum]}| /\  |\033[0m"
-#         echo -e "  \033[33;41m|${Sprite[4 + spriteNum]}|/ o\ |\033[0m"
-#         echo -e "  \033[33;41m|________________|\033[0m"
-
-#         # Display the current counter value
-#         echo "You are level $counter"
-
-
-#         # Display the time spent in a readable format
-#         echo "Time spent in terminal: ${hours_spent} hours and ${remaining_minutes} minutes."
-
-
-#                 # Increment walkNum to cycle through legs (loop back after 3)
-#         if [ "$walkNum" -eq 3 ]; then
-#             walkNum=0
-#         else
-#             ((walkNum++))
-#         fi
-
-#         # Delay between frames for animation effect
-#         sleep 1  # Adjust this value to make the animation faster or slower
-#     done
-# }
-
-# # Start the animation
-# animate_sprite
