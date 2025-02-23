@@ -67,7 +67,7 @@ animate_sprite() {
         "/ # \ "
         " ###  "
         "/   \ "
-        "      "
+        "______"
     )
 
     # Function to reverse each line of the sprite horizontally (mirror left to right)
@@ -105,20 +105,57 @@ animate_sprite() {
     # Number of lines to display in one set (adjust this if you want to show more or fewer lines per set)
     num_lines=5  
 
+    # Define color codes
+    WHITE="\033[37m"   
+    GREEN="\033[32m"  
+    BLUE="\033[34m"    
+    PURPLE="\033[35m"  
+    YELLOW="\033[33m"  
+    RED="\033[31m"          
+    RESET="\033[0m" 
+
+    # Array of sprite colors
+    colors=("$WHITE" "$GREEN" "$BLUE" "$PURPLE" "$YELLOW" "$RED")
+
+    # Define initial sprite color index
+    sprite_color_index=0  # Start with the first color
+
+    # Calculate weeks passed since the start
+    weeks_passed=$((time_spent / 604800))  # 604800 seconds = 168 hours (1 week)
+
+    # Increment sprite color every 168 hours (1 week)
+    if [ "$weeks_passed" -gt "$sprite_color_index" ]; then
+        sprite_color_index=$weeks_passed  # Update the sprite color index
+    fi
+
+    # Set the sprite color based on the index
+    sprite_color="${colors[$sprite_color_index]}"
+
+    # Function to change sprite color by incrementing the index
+    change_sprite_color() {
+        # Increment the color index
+        sprite_color_index=$(( (sprite_color_index + 1) % ${#colors[@]} ))  # Loop through the colors
+
+        # Set the new sprite color
+        sprite_color="${colors[$sprite_color_index]}"
+    }    
+
     while true; do
         # Clear the screen each frame
         tput clear
+        
+        
+        #change_sprite_color
 
         # Display ASCII art
-        echo -e " \033[33;41mO__________________\033[0m"
-        echo -e "  \033[33;41m|___________     |\033[0m"
-        echo -e "  \033[33;41m|          |  o  |\033[0m"
-        echo -e "  \033[33;41m|          |\  / |\033[0m"
-        echo -e "  \033[33;41m|          | \o  |\033[0m"
-        echo -e "  \033[33;41m|          | /\  |\033[0m"
-        echo -e "  \033[33;41m|__________|/ o\ |\033[0m"
-        echo -e "  \033[33;41m|________________|\033[0m"
-
+        echo -e " ${sprite_color}O__________________${RESET}"
+        echo -e "  ${sprite_color}|${RESET}___________${sprite_color}     |${RESET}"
+        echo -e "  |          |${sprite_color}  o  |${RESET}" 
+        echo -e "  |          |${sprite_color}\\  / |${RESET}" 
+        echo -e "  |          |${sprite_color} \\o  |${RESET}" 
+        echo -e "  |          |${sprite_color} /\\  |${RESET}"  
+        echo -e "  |__________|${sprite_color}/ o\\ |${RESET}" 
+        echo -e "  ${sprite_color}|________________|${RESET}"
 
         # Display the time since start in a readable format
         echo "Time past since start: ${hours_spent} hours and ${remaining_minutes} minutes."
