@@ -17,7 +17,6 @@ if [ ! -f "$TIME_TRACK_FILE" ]; then
     # If the file does not exist, this is the first time the script is running
     start_time=$(date +%s)  # Get the current timestamp in seconds
     echo "$start_time" > "$TIME_TRACK_FILE"  # Store the start time in the file
-    echo "Welcome! Starting time tracking..."
 else
     # If the file exists, read the stored start time
     start_time=$(cat "$TIME_TRACK_FILE")
@@ -47,28 +46,28 @@ move_cursor() {
 
 # Function to animate a moving sprite (entire sprite moves together)
 animate_sprite() {
-    width=11  # Width of the screen for animation
+    width=7  # Width of the screen for animation
     height=2  # Height of the screen for animation (adjust as needed)
     position=3  # Starting position of the sprite
     direction=1  # 1 means moving right, -1 means moving left
     
     # Define the sprite as an array of lines
     sprite_lines=(
-        "          "
         "    _     "
         "  / . \   "
         " |  .  |  "
         "  \___/   "
         "          "
-        "     @@   "
-        "  \  ##>  "
-        "   ###    "
-        "  /   \   "
-        "          "
-        "   @_@    "
-        "  \ # /   "
-        "   ###    "
-        "  /   \   "
+        "   @@ "
+        "\  ##>"
+        " ###  "
+        "/   \ "
+        "      "
+        " @_@  "
+        "/ # \ "
+        " ###  "
+        "/   \ "
+        "      "
     )
 
     # Function to reverse each line of the sprite horizontally (mirror left to right)
@@ -76,14 +75,14 @@ animate_sprite() {
         for i in "${!sprite_lines[@]}"; do
             
             if [ $direction -eq 1 ]; then
-                if [ $i -eq 14 ]; then    
+                if [ $i -eq 8 ] || [ $i -eq 11 ] || [ $i -eq 13 ]; then    
                 sprite_lines[$i]=$(echo "${sprite_lines[$i]}" | sed 's#\\#/#; s#/#\\#' | rev)
                 else
                 sprite_lines[$i]=$(echo "${sprite_lines[$i]}" | sed 's/</>/g; s#/#\\#' | rev)
                 fi
 
             else
-                 if [ $i -eq 14 ]; then  
+                 if [ $i -eq 8 ] || [ $i -eq 11 ] ||  [ $i -eq 13 ]; then  
                  sprite_lines[$i]=$(echo "${sprite_lines[$i]}" | sed 's#\\#/#; s#/#\\#' | rev)  # Reverse each line
                  else
                  sprite_lines[$i]=$(echo "${sprite_lines[$i]}" | sed 's/>/</g; s#\\#/#' | rev)
@@ -94,8 +93,14 @@ animate_sprite() {
 
 
     # Calculate spriteNum based on counter
-    # New variable to decide which lines to display (0 for 1-9, 1 for 10-19, etc.)
-    line_set=$((counter / 10))
+    # New variable to decide which lines of the sprite array to display (0 for 1-9, 1 for 10-19, etc.)
+    # change the 30 to for example 40 if an extra evolutions is added to the spites lines array.
+    if [ "$counter" -lt 30 ]; then
+        line_set=$((counter / 10))
+    else
+        line_set=2
+    fi
+
 
     # Number of lines to display in one set (adjust this if you want to show more or fewer lines per set)
     num_lines=5  
@@ -104,17 +109,19 @@ animate_sprite() {
         # Clear the screen each frame
         tput clear
 
-                # Display ASCII art
-        echo -e " \033[33;41mO________________________\033[0m"
-        echo -e "  \033[33;41m|------------     |     |\033[0m"
-        echo -e "  \033[33;41m|           |     |  o  |\033[0m"
-        echo -e "  \033[33;41m|           |     |\  / |\033[0m"
-        echo -e "  \033[33;41m|           |     | \o  |\033[0m"
-        echo -e "  \033[33;41m|           |     | /\  |\033[0m"
-        echo -e "  \033[33;41m|-----------|     |/ o\ |\033[0m"
-        echo -e "  \033[33;41m|_________________|_____|\033[0m"
-        # Display the time spent in a readable format
-        echo "Time spent in terminal: ${hours_spent} hours and ${remaining_minutes} minutes."
+        # Display ASCII art
+        echo -e " \033[33;41mO__________________\033[0m"
+        echo -e "  \033[33;41m|___________     |\033[0m"
+        echo -e "  \033[33;41m|          |  o  |\033[0m"
+        echo -e "  \033[33;41m|          |\  / |\033[0m"
+        echo -e "  \033[33;41m|          | \o  |\033[0m"
+        echo -e "  \033[33;41m|          | /\  |\033[0m"
+        echo -e "  \033[33;41m|__________|/ o\ |\033[0m"
+        echo -e "  \033[33;41m|________________|\033[0m"
+
+
+        # Display the time since start in a readable format
+        echo "Time past since start: ${hours_spent} hours and ${remaining_minutes} minutes."
         # Display the current counter value
         echo "You are level $counter"
         echo $line_set
